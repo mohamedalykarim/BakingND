@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/step_bg"
+        android:paddingBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_smooth"
+            android:src="@drawable/main_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/short_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:textColor="#353535"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="Step of the recipe"
+            android:textColor="#5b5b5b"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintTop_toBottomOf="@+id/short_description_tv" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:background="#dadada"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+
+        <TextView
+            android:id="@+id/description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:text="TextView"
+            android:textColor="#151515"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_smooth" />
+
+            <TextView
+                android:id="@+id/id_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="1"
+                android:textColor="#313131"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
