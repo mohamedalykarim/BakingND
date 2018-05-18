@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:name="com.backingnd.mohamedali.bakingnd.Fragments.RecipeStepsFragment">
+     android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-</fragment>
+    <ImageView
+        android:id="@+id/main_icon2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:contentDescription="Header"
+        android:scaleType="centerCrop"
+        android:src="@drawable/steps_bg" />
+
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/steps_fragment">
+
+    </FrameLayout>
+
+</RelativeLayout>
+
+
+
 

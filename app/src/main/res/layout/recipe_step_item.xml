@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#00ffffff">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
@@ -30,23 +31,26 @@
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/bg_smooth"
             android:src="@drawable/main_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/short_description_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textColor="#353535"
-            android:textSize="16sp"
+            android:textColor="#a97600"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
             app:layout_constraintTop_toTopOf="@+id/circleImageView" />
 
@@ -59,7 +63,7 @@
             android:layout_marginTop="6dp"
             android:text="Step of the recipe"
             android:textColor="#5b5b5b"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
             app:layout_constraintTop_toBottomOf="@+id/short_description_tv" />
 
@@ -79,31 +83,35 @@
 
         <TextView
             android:id="@+id/description_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="TextView"
-            android:textColor="#151515"
-            android:textSize="16sp"
+            android:textColor="#451000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
         <RelativeLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/relativeLayout2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="35dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_smooth" />
+                android:background="@drawable/step_number_bg" />
 
             <TextView
                 android:id="@+id/id_tv"
@@ -112,7 +120,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="1"
-                android:textColor="#313131"
+                android:textColor="#a67505"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>

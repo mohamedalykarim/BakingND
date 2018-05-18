@@ -8,10 +8,9 @@ import org.json.JSONArray;
 public class Recipe implements Parcelable{
 
     int id, servings;
-    String name, image;
-    JSONArray ingredients, steps;
+    String name, image, ingredients, steps;
 
-    public Recipe(int id, int servings, String name, String image, JSONArray ingredients, JSONArray steps) {
+    public Recipe(int id, int servings, String name, String image, String ingredients, String steps) {
         this.id = id;
         this.servings = servings;
         this.name = name;
@@ -20,12 +19,28 @@ public class Recipe implements Parcelable{
         this.steps = steps;
     }
 
-
     protected Recipe(Parcel in) {
         id = in.readInt();
         servings = in.readInt();
         name = in.readString();
         image = in.readString();
+        ingredients = in.readString();
+        steps = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(servings);
+        dest.writeString(name);
+        dest.writeString(image);
+        dest.writeString(ingredients);
+        dest.writeString(steps);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -72,33 +87,20 @@ public class Recipe implements Parcelable{
         this.image = image;
     }
 
-    public JSONArray getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(JSONArray ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public JSONArray getSteps() {
+    public String getSteps() {
         return steps;
     }
 
-    public void setSteps(JSONArray steps) {
+    public void setSteps(String steps) {
         this.steps = steps;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(servings);
-        dest.writeString(name);
-        dest.writeString(image);
     }
 }
 

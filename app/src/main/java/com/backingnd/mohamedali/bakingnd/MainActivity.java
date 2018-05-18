@@ -3,7 +3,6 @@ package com.backingnd.mohamedali.bakingnd;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.backingnd.mohamedali.bakingnd.Adapter.RecipeArrayAdpater;
 import com.backingnd.mohamedali.bakingnd.Models.Recipe;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         int i = 2/6;
 
-        Toast.makeText(this, "" + i, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -71,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject recipeJsonObject = recipesJsonArray.getJSONObject(i);
                         int id = recipeJsonObject.getInt(ConstantUtils.ID);
                         String name = recipeJsonObject.getString(ConstantUtils.NAME);
-                        JSONArray ingredients = recipeJsonObject.getJSONArray(ConstantUtils.INGREDIENTS);
-                        JSONArray steps = recipeJsonObject.getJSONArray(ConstantUtils.STEPS);
+                        String ingredients = recipeJsonObject.getString(ConstantUtils.INGREDIENTS);
+                        String steps = recipeJsonObject.getString(ConstantUtils.STEPS);
                         int serving = recipeJsonObject.getInt(ConstantUtils.SERVING);
                         String image = recipeJsonObject.getString(ConstantUtils.IMAGE);
 
