@@ -33,7 +33,9 @@ public class BakingNDWidget extends AppWidgetProvider {
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_ndwidget);
 
 
-
+        /**
+         * Set clicks on the widget intent to main activity
+         */
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
@@ -70,6 +72,10 @@ public class BakingNDWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
+
+    /**
+     * updating all the widgets
+     */
     public static void updateWidgets(Context context, AppWidgetManager appWidgetManager, int[] ids, List<Ingredient> ingredients){
 
 

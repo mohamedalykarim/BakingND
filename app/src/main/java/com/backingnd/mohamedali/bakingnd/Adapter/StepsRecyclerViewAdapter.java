@@ -39,6 +39,15 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     private OnListItemClickListeaner onListItemClickListeaner;
 
 
+    /**
+     *  the constructor of the adapter
+     *
+     * @param context : the current context
+     * @param stepsList List of Recipes class
+     * @param onListItemClickListeaner : click listener
+     * @param ingredientsList List of ingredients class
+     * @param recipeID The recipe id
+     */
     public StepsRecyclerViewAdapter(Context context, List<RecipeStep> stepsList, OnListItemClickListeaner onListItemClickListeaner, List<Ingredient> ingredientsList, int recipeID) {
         this.context = context;
         this.steps = new ArrayList<>();
@@ -58,6 +67,8 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     public StepViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
+
+        // initialize the resource depending on the the view FIRST_VIEW or OTHER_VIEW
         int resource;
         switch (viewType){
             case FIRST_VIEW:
@@ -85,6 +96,8 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
         RecipeStep step = steps.get(position);
 
         switch (viewType){
+
+            // handling first item view
             case FIRST_VIEW:
                 for (int i = 0 ; i < ingredients.size(); i++){
                     LayoutInflater inflater = LayoutInflater.from(context);
@@ -98,6 +111,11 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
                     holder.ingridientContainer.addView(view);
                 }
 
+
+                /** handling the status of the switch
+                 * make it checked if there is ingredients or unchecked if there is no
+                  */
+
                 final Uri uri = RecipeContract.IngredientsEntry.CONTENT_URI;
 
                 final Cursor cursor = context.getContentResolver().query(
@@ -109,6 +127,7 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
                         null
                 );
 
+
                 if (cursor.getCount() > 0){
                     cursor.moveToFirst();
                     int id = cursor.getInt(cursor.getColumnIndex(RecipeContract.IngredientsEntry.RECIPE_ID));
@@ -117,6 +136,13 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
                 }else{
                     holder.widgetSwitch.setChecked(false);
                 }
+
+
+                /**
+                 *  Widget switch check handling
+                 *  when check if it's checked it will delete the ingredients from the database
+                 *  if it's not checked it will delete the ingredients and add new ingredients
+                 */
 
                 holder.widgetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -170,6 +196,10 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
                 );
                 break;
 
+
+
+            // handling other items views
+
             case OTHER_VIEWS:
 
                 holder.bind(
@@ -188,6 +218,10 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
         return steps.size();
     }
 
+    /**
+     * Step View Holder
+     */
+
     class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView idTV, shortDescriptionTV, descriptionTV;
         LinearLayout ingridientContainer;
@@ -204,6 +238,12 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * binding the data with view
+         * @param id : Step Id
+         * @param shortDescription : Step Short Description
+         * @param description : Step Description
+         */
         private void bind(String id, String shortDescription, String description){
             if (description.length() > 100){
                 description = description.substring(0,100) + "...";

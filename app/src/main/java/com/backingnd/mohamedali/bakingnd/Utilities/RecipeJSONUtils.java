@@ -15,9 +15,9 @@ import java.util.List;
 public class RecipeJSONUtils {
 
     /**
-     *
-     * @param json
-     * @return
+     * Get the recipe from json String
+     * @param json : JSON String that retrieve it from internet
+     * @return List of the Recipes
      */
     public static List<Recipe> getRecipes(String json){
 
@@ -55,9 +55,9 @@ public class RecipeJSONUtils {
     }
 
     /**
-     *
-     * @param recipe
-     * @return
+     * Get the recipe steps from the recipe
+     * @param recipe : the recipe that want to get the steps from it
+     * @return List of the recipe steps
      */
     public static List<RecipeStep> getStepsFromRecipe(Recipe recipe){
         List<RecipeStep> steps = new ArrayList<>();
@@ -91,10 +91,11 @@ public class RecipeJSONUtils {
     }
 
     /**
-     *
-     * @param recipe
-     * @return
+     * Get the ingredients from the recipe
+     * @param recipe : the recipe that want to get the ingredients from it
+     * @return List of the ingredients
      */
+
     public static List<Ingredient> getIngredientsFromRecipe(Recipe recipe) {
         List<Ingredient> ingredients = new ArrayList<>();
 

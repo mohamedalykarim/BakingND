@@ -7,6 +7,11 @@ import org.json.JSONArray;
 
 public class Recipe implements Parcelable{
 
+    /**
+     * Recipe Model implements parcelable
+     */
+
+
     int id, servings;
     String name, image, ingredients, steps;
 

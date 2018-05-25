@@ -4,6 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Ingredient implements Parcelable {
+
+    /**
+     * Ingredient Model implements parcelable
+     */
+
     int quantity;
     String measure, ingredient;
 

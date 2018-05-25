@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.backingnd.mohamedali.bakingnd.Adapter.RecipeArrayAdpater;
-import com.backingnd.mohamedali.bakingnd.Database.RecipeContract;
-import com.backingnd.mohamedali.bakingnd.Models.Ingredient;
 import com.backingnd.mohamedali.bakingnd.Models.Recipe;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeClient;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeService;
-import com.backingnd.mohamedali.bakingnd.Utilities.RecicpeDataStoringUtil;
 import com.backingnd.mohamedali.bakingnd.Utilities.RecipeJSONUtils;
 
 import java.io.IOException;
@@ -20,7 +17,6 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -37,15 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
         recipesListView = findViewById(R.id.recipes_list_view);
 
-        getRecipes();
 
         recipes = new ArrayList<>();
         recipeArrayAdpater = new RecipeArrayAdpater(this,recipes);
 
         recipesListView.setAdapter(recipeArrayAdpater);
 
+        getRecipes();
+
     }
 
+
+    /**
+     * Get the recipes from the internet and add them to the list view
+     */
 
     private class GetRecipes extends AsyncTask<Call,Void,String>{
 

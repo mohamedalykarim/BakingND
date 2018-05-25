@@ -42,6 +42,10 @@ public class RecipeWidgetService extends IntentService {
         }
     }
 
+    /**
+     * Updating the widget with new ingredients
+     */
+
     private void handleUpdate() {
 
         Uri uri = RecipeContract.IngredientsEntry.CONTENT_URI;

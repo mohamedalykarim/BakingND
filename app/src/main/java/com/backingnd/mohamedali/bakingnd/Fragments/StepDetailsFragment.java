@@ -31,6 +31,13 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 public class StepDetailsFragment extends Fragment {
+    /**
+     * this fragment shows the step details
+     * Short description
+     * Video if exists
+     * Description
+     */
+
     SimpleExoPlayer exoPlayer;
     PlayerView playerView;
     Context context;
@@ -56,6 +63,9 @@ public class StepDetailsFragment extends Fragment {
         }
 
 
+        /**
+         * Handling the data and The player if video exist
+         */
 
         if (step != null){
             shortDescriptionTV.setText(step.getShortDescription());
@@ -76,7 +86,10 @@ public class StepDetailsFragment extends Fragment {
     }
 
 
-
+    /**
+     * Initializing  Exoplayer
+     * @param mediaUri the uri of video
+     */
     public void intializePlayer(Uri mediaUri){
         /**
          * Creating the player
@@ -109,6 +122,9 @@ public class StepDetailsFragment extends Fragment {
         exoPlayer.setPlayWhenReady(true);
     }
 
+    /**
+     * Releasing Exoplayer
+     */
     public void releasePlayer(){
         if (exoPlayer != null){
             exoPlayer.stop();
@@ -127,6 +143,9 @@ public class StepDetailsFragment extends Fragment {
         this.step = step;
     }
 
+    /**
+     * Save instance of the step
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

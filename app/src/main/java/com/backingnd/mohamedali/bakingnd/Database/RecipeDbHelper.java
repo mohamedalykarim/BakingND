@@ -9,6 +9,10 @@ import static com.backingnd.mohamedali.bakingnd.Database.RecipeContract.Ingredie
 
 public class RecipeDbHelper extends SQLiteOpenHelper {
 
+    /**
+     * Recipe DB Helper: handling create database and updating it
+     */
+
     public static final String DATABASE_NAME = "recipe.db";
     public static final int DATABASE_VERSION = 1;
 

@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAdapter.OnListItemClickListeaner {
+    /**
+     * This fragment shows all the steps
+     */
+
     Context context;
     RecipeStepsFragment recipeStepsFragment;
     ArrayList<RecipeStep> steps;
@@ -103,6 +107,12 @@ public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAd
         void onClickItemInTwoPane(RecipeStep step);
     }
 
+
+    /**
+     * getting the data from the intent
+     * handling the Steps Recyclerview and adding the steps item
+     * and binding the views by the adapter
+     */
     class StepsExecution extends AsyncTask<Void,Void,Void>{
 
         @Override
@@ -130,6 +140,7 @@ public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAd
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recipeDetailsRecyclerView.setLayoutManager(linearLayoutManager);

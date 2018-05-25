@@ -5,6 +5,11 @@ import android.provider.BaseColumns;
 
 public class RecipeContract {
 
+    /**
+     * Recipe Contract that will use in database handling and in content providers
+     * it contains Ingredients Entry
+     */
+
     public static final String CONTENT_AUTHORITY = "com.backingnd.mohamedali.bakingnd";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);

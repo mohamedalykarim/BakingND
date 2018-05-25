@@ -1,6 +1,7 @@
 package com.backingnd.mohamedali.bakingnd.Utilities;
 
 
+
 public class ConstantUtils {
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -17,9 +18,6 @@ public class ConstantUtils {
 
     public static final String PLAYER_NAME = "step_player_name";
     public static final String IS_TWO_PANE = "is_two_pane";
-
-    public static final String GETTING_INGREDIANTS_ACTION
-            = "com.backingnd.mohamedali.bakingnd.action.getting_ingrediants_widget";
 
     public static final String UPDATE_INGREDIANTS_ACTION
             = "com.backingnd.mohamedali.bakingnd.action.update_ingrediants_widget";

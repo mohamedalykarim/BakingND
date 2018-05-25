@@ -20,6 +20,8 @@ public class StepActivity extends AppCompatActivity {
         Intent intent = getIntent();
         RecipeStep step = intent.getParcelableExtra(ConstantUtils.STEP);
 
+        // add the StepDetailsFragment instance
+
         if (savedInstanceState == null){
             stepDetailsFragment = new StepDetailsFragment();
             stepDetailsFragment.setStep(step);

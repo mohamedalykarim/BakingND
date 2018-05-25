@@ -4,6 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RecipeStep implements Parcelable {
+
+    /**
+     * RecipeStep Model implements parcelable
+     */
+
     String id, shortDescription, description, videoURL, thumbnailURL;
 
     public RecipeStep(String id, String shortDescription, String description, String videoURL, String thumbnailURL) {

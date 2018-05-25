@@ -103,6 +103,10 @@ public class DetailsActivity extends AppCompatActivity implements RecipeStepsFra
     }
 
 
+    /**
+     * Handlin click item on two pane
+     */
+
     @Override
     public void onClickItemInTwoPane(RecipeStep step) {
 

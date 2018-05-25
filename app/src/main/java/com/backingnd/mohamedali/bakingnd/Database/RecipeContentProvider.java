@@ -29,9 +29,15 @@ public class RecipeContentProvider extends ContentProvider {
         return true;
     }
 
+
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+
+        /**
+         * Query all the ingredients from database
+         */
+
         Cursor cursor;
         switch (mUriMatcher.match(uri)){
             case INGREDIENTS_CODE:
@@ -67,6 +73,10 @@ public class RecipeContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        /**
+         * Delete all the ingredients from database
+         */
         int numRowsDeleted;
         switch (mUriMatcher.match(uri)){
             case INGREDIENTS_CODE:
@@ -94,6 +104,10 @@ public class RecipeContentProvider extends ContentProvider {
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase database = mRecipeDbHelper.getWritableDatabase();
 
+        /**
+         * insert Multi row
+         * insert all the ingredients
+         */
         switch (mUriMatcher.match(uri)){
             case INGREDIENTS_CODE:
                 database.beginTransaction();
@@ -134,6 +148,11 @@ public class RecipeContentProvider extends ContentProvider {
         super.shutdown();
     }
 
+
+    /**
+     * Initialize the UriMatcher
+     * @return UriMatcher
+     */
     public static UriMatcher buildUriMatcher(){
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = RecipeContract.CONTENT_AUTHORITY;
