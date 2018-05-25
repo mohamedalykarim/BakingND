@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/stepExoPlayerView"
                 app:srcCompat="@drawable/main_icon" />
 
-            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/stepExoPlayerView"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
@@ -60,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/short_description">
 
-            </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+            </com.google.android.exoplayer2.ui.PlayerView>
 
             <TextView
                 android:id="@+id/description"

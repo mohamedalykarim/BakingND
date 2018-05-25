@@ -1,18 +1,18 @@
 package com.backingnd.mohamedali.bakingnd;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import com.backingnd.mohamedali.bakingnd.Adapter.RecipeArrayAdpater;
+import com.backingnd.mohamedali.bakingnd.Database.RecipeContract;
+import com.backingnd.mohamedali.bakingnd.Models.Ingredient;
 import com.backingnd.mohamedali.bakingnd.Models.Recipe;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeClient;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeService;
-import com.backingnd.mohamedali.bakingnd.Utils.ConstantUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.backingnd.mohamedali.bakingnd.Utilities.RecicpeDataStoringUtil;
+import com.backingnd.mohamedali.bakingnd.Utilities.RecipeJSONUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,66 +44,38 @@ public class MainActivity extends AppCompatActivity {
 
         recipesListView.setAdapter(recipeArrayAdpater);
 
-        int i = 2/6;
-
-
     }
 
-    /**
-     *
-     */
+
+    private class GetRecipes extends AsyncTask<Call,Void,String>{
+
+        @Override
+        protected String doInBackground(Call... calls) {
+            try {
+                Call<ResponseBody> call = calls[0];
+                Response<ResponseBody> response = call.execute();
+                return response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            recipes.addAll(RecipeJSONUtils.getRecipes(s));
+            recipeArrayAdpater.notifyDataSetChanged();
+        }
+    }
+
 
     public void getRecipes(){
         final RecipeService recipeService = RecipeClient
                 .getClient().create(RecipeService.class);
         Call<ResponseBody> call = recipeService.getRecipeJsonString();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
 
-
-
-                    JSONArray recipesJsonArray = new JSONArray(response.body().string());
-                    for (int i=0; i<recipesJsonArray.length();i++){
-                        JSONObject recipeJsonObject = recipesJsonArray.getJSONObject(i);
-                        int id = recipeJsonObject.getInt(ConstantUtils.ID);
-                        String name = recipeJsonObject.getString(ConstantUtils.NAME);
-                        String ingredients = recipeJsonObject.getString(ConstantUtils.INGREDIENTS);
-                        String steps = recipeJsonObject.getString(ConstantUtils.STEPS);
-                        int serving = recipeJsonObject.getInt(ConstantUtils.SERVING);
-                        String image = recipeJsonObject.getString(ConstantUtils.IMAGE);
-
-                        recipes.add(new Recipe(
-                                id,
-                                serving,
-                                name,
-                                image,
-                                ingredients,
-                                steps
-                                ));
-                    }
-
-                    recipeArrayAdpater.notifyDataSetChanged();
-
-
-
-
-
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+        GetRecipes getRecipes = new GetRecipes();
+        getRecipes.execute(call);
 
     }
 }

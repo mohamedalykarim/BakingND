@@ -4,6 +4,7 @@ package com.backingnd.mohamedali.bakingnd.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,28 +14,28 @@ import android.widget.TextView;
 
 import com.backingnd.mohamedali.bakingnd.Models.RecipeStep;
 import com.backingnd.mohamedali.bakingnd.R;
-import com.backingnd.mohamedali.bakingnd.Utils.ConstantUtils;
-import com.google.android.exoplayer2.DefaultLoadControl;
+import com.backingnd.mohamedali.bakingnd.Utilities.ConstantUtils;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-
 public class StepDetailsFragment extends Fragment {
     SimpleExoPlayer exoPlayer;
-    SimpleExoPlayerView playerView;
+    PlayerView playerView;
     Context context;
+
+    RecipeStep step;
 
     public StepDetailsFragment() {
     }
@@ -50,12 +51,11 @@ public class StepDetailsFragment extends Fragment {
 
         context = container.getContext();
 
-        RecipeStep step = null;
-
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-           step = bundle.getParcelable(ConstantUtils.STEP);
+        if (savedInstanceState != null && savedInstanceState.containsKey(ConstantUtils.STEP)){
+            step = savedInstanceState.getParcelable(ConstantUtils.STEP);
         }
+
+
 
         if (step != null){
             shortDescriptionTV.setText(step.getShortDescription());
@@ -78,28 +78,35 @@ public class StepDetailsFragment extends Fragment {
 
 
     public void intializePlayer(Uri mediaUri){
-        if (exoPlayer == null){
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(
-                    context,
-                    trackSelector,
-                    loadControl
-            );
-            playerView.setPlayer(exoPlayer);
+        /**
+         * Creating the player
+         */
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory trackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(trackSelectionFactory);
+        exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
 
-            String userAgent = Util.getUserAgent(context,ConstantUtils.PLAYER_NAME);
-            MediaSource mediaSource = new ExtractorMediaSource(
-              mediaUri,
-              new DefaultDataSourceFactory(context, userAgent),
-                    new DefaultExtractorsFactory(),
-                    null,
-                    null
-            );
+        /**
+         * attaching the player to the view
+         */
 
-            exoPlayer.prepare(mediaSource);
-            exoPlayer.setPlayWhenReady(true);
-        }
+        playerView.setPlayer(exoPlayer);
+
+        /**
+         * preparing the player
+         */
+        DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
+                context,
+                Util.getUserAgent(context,ConstantUtils.PLAYER_NAME),
+                defaultBandwidthMeter
+        );
+
+        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(mediaUri);
+        exoPlayer.prepare(videoSource);
+        exoPlayer.setPlayWhenReady(true);
     }
 
     public void releasePlayer(){
@@ -114,5 +121,16 @@ public class StepDetailsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
+    }
+
+    public void setStep(RecipeStep step) {
+        this.step = step;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ConstantUtils.STEP,step);
     }
 }

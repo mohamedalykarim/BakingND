@@ -19,7 +19,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".StepActivity"></activity>
+        <activity android:name=".StepActivity" />
+
+        <receiver android:name=".BakingNDWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_ndwidget_info" />
+        </receiver>
+
+        <provider
+            android:name=".Database.RecipeContentProvider"
+            android:authorities="com.backingnd.mohamedali.bakingnd"
+            android:exported="false" />
+
+        <service android:name=".Services.RecipeWidgetService" />
     </application>
 
 </manifest>

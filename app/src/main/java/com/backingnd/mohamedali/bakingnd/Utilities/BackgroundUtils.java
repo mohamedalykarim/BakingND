@@ -1,4 +1,4 @@
-package com.backingnd.mohamedali.bakingnd.Utils;
+package com.backingnd.mohamedali.bakingnd.Utilities;
 
 import com.backingnd.mohamedali.bakingnd.R;
 

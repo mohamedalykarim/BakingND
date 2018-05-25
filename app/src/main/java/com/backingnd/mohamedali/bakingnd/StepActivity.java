@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.backingnd.mohamedali.bakingnd.Fragments.StepDetailsFragment;
 import com.backingnd.mohamedali.bakingnd.Models.RecipeStep;
-import com.backingnd.mohamedali.bakingnd.Utils.ConstantUtils;
+import com.backingnd.mohamedali.bakingnd.Utilities.ConstantUtils;
 
 
 public class StepActivity extends AppCompatActivity {
@@ -20,14 +20,14 @@ public class StepActivity extends AppCompatActivity {
         Intent intent = getIntent();
         RecipeStep step = intent.getParcelableExtra(ConstantUtils.STEP);
 
-        stepDetailsFragment = new StepDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantUtils.STEP, step);
-        stepDetailsFragment.setArguments(bundle);
+        if (savedInstanceState == null){
+            stepDetailsFragment = new StepDetailsFragment();
+            stepDetailsFragment.setStep(step);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.stepDetailsFragment, stepDetailsFragment)
-                .commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.stepDetailsFragment, stepDetailsFragment)
+                    .commit();
+        }
     }
 }

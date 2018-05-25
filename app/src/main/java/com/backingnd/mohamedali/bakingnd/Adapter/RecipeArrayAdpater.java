@@ -14,20 +14,28 @@ import android.widget.TextView;
 import com.backingnd.mohamedali.bakingnd.DetailsActivity;
 import com.backingnd.mohamedali.bakingnd.Models.Recipe;
 import com.backingnd.mohamedali.bakingnd.R;
-import com.backingnd.mohamedali.bakingnd.Utils.BackgroundUtils;
+import com.backingnd.mohamedali.bakingnd.Utilities.BackgroundUtils;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.internal.Util;
 
 public class RecipeArrayAdpater extends ArrayAdapter<Recipe> {
     private RelativeLayout recipeItemContent;
     private TextView recipeTitle;
 
+    /**
+     * The constructor of the adapter
+     * @param context
+     * @param recipes List of the recipes that will added to listview
+     */
     public RecipeArrayAdpater(@NonNull Context context, List<Recipe> recipes) {
         super(context, 0, recipes);
     }
+
+
+    /**
+     * Item view customization
+     * @return the handled view
+     */
 
     @NonNull
     @Override
