@@ -34,9 +34,14 @@
         <provider
             android:name=".Database.RecipeContentProvider"
             android:authorities="com.backingnd.mohamedali.bakingnd"
-            android:exported="false" />
+            android:exported="true" />
 
         <service android:name=".Services.RecipeWidgetService" />
+
+        <service
+            android:name=".Services.WidgetListViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

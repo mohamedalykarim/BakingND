@@ -32,4 +32,5 @@ public class ConstantUtils {
 
 
     public static final String RECIPE_ID = "recipe_id";
+    public static final String MEDIA_POSITION = "media_position";
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,13 @@ public class StepDetailsFragment extends Fragment {
 
     RecipeStep step;
 
+    Uri uri;
+
+    TextView shortDescriptionTV;
+    TextView descriptionTV;
+
+    private long mediaPosition;
+
     public StepDetailsFragment() {
     }
 
@@ -51,46 +59,66 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.step_details_fragment,container,false);
-        TextView shortDescriptionTV = view.findViewById(R.id.short_description);
-        TextView descriptionTV = view.findViewById(R.id.description);
+        shortDescriptionTV = view.findViewById(R.id.short_description);
+        descriptionTV = view.findViewById(R.id.description);
 
         playerView = view.findViewById(R.id.stepExoPlayerView);
 
         context = container.getContext();
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(ConstantUtils.STEP)){
-            step = savedInstanceState.getParcelable(ConstantUtils.STEP);
-        }
 
 
-        /**
-         * Handling the data and The player if video exist
-         */
+        if (savedInstanceState != null){
 
-        if (step != null){
-            shortDescriptionTV.setText(step.getShortDescription());
-            descriptionTV.setText(step.getDescription());
-
-            if (!step.getVideoURL().equals("")){
-                Uri uri = Uri.parse(step.getVideoURL());
-                intializePlayer(uri);
-            }else if (!step.getThumbnailURL().equals("")){
-                Uri uri = Uri.parse(step.getThumbnailURL());
-                intializePlayer(uri);
-            }else{
-                playerView.setVisibility(View.GONE);
+            // get the step
+            if (savedInstanceState.containsKey(ConstantUtils.STEP)){
+                step = savedInstanceState.getParcelable(ConstantUtils.STEP);
             }
+
+            // get the last player position
+            if (savedInstanceState.containsKey(ConstantUtils.MEDIA_POSITION)){
+                mediaPosition = savedInstanceState.getLong(ConstantUtils.MEDIA_POSITION);
+            }
+
+
         }
+
+
+        shortDescriptionTV.setText(step.getShortDescription());
+        descriptionTV.setText(step.getDescription());
 
         return view;
     }
 
 
     /**
+     * Handling The player if video exist
+     */
+
+    public void  handlingTheVideo(){
+
+            if (!step.getVideoURL().equals("")){
+                uri = Uri.parse(step.getVideoURL());
+                initializePlayer(uri);
+                if (mediaPosition> 0) exoPlayer.seekTo(mediaPosition);
+            }else if (!step.getThumbnailURL().equals("")){
+                uri = Uri.parse(step.getThumbnailURL());
+                initializePlayer(uri);
+                if (mediaPosition> 0) exoPlayer.seekTo(mediaPosition);
+            }else{
+                playerView.setVisibility(View.GONE);
+            }
+
+    }
+
+
+
+
+    /**
      * Initializing  Exoplayer
      * @param mediaUri the uri of video
      */
-    public void intializePlayer(Uri mediaUri){
+    public void initializePlayer(Uri mediaUri){
         /**
          * Creating the player
          */
@@ -127,9 +155,51 @@ public class StepDetailsFragment extends Fragment {
      */
     public void releasePlayer(){
         if (exoPlayer != null){
+            mediaPosition = exoPlayer.getContentPosition();
             exoPlayer.stop();
             exoPlayer.release();
             exoPlayer = null;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+
+        if (Util.SDK_INT <= 23) {
+            mediaPosition = exoPlayer.getContentPosition();
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (Util.SDK_INT > 23) {
+            mediaPosition = exoPlayer.getContentPosition();
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (Util.SDK_INT > 23 ) {
+            handlingTheVideo();
+            exoPlayer.seekTo(mediaPosition);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if ((Util.SDK_INT <= 23 || exoPlayer == null)) {
+            handlingTheVideo();
+            exoPlayer.seekTo(mediaPosition);
         }
     }
 
@@ -151,5 +221,6 @@ public class StepDetailsFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(ConstantUtils.STEP,step);
+        outState.putLong(ConstantUtils.MEDIA_POSITION, mediaPosition);
     }
 }
