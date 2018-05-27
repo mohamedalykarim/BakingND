@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.backingnd.mohamedali.bakingnd.Models.RecipeStep;
 import com.backingnd.mohamedali.bakingnd.R;
@@ -30,6 +33,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 public class StepDetailsFragment extends Fragment {
     /**
@@ -50,7 +54,10 @@ public class StepDetailsFragment extends Fragment {
     TextView shortDescriptionTV;
     TextView descriptionTV;
 
+    ImageView detailsImageView;
+
     private long mediaPosition;
+    boolean isGetPlayWhenReady;
 
     public StepDetailsFragment() {
     }
@@ -61,6 +68,8 @@ public class StepDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.step_details_fragment,container,false);
         shortDescriptionTV = view.findViewById(R.id.short_description);
         descriptionTV = view.findViewById(R.id.description);
+
+        detailsImageView = view.findViewById(R.id.detailsImageView);
 
         playerView = view.findViewById(R.id.stepExoPlayerView);
 
@@ -75,9 +84,10 @@ public class StepDetailsFragment extends Fragment {
                 step = savedInstanceState.getParcelable(ConstantUtils.STEP);
             }
 
-            // get the last player position
+            // get the last player position and state
             if (savedInstanceState.containsKey(ConstantUtils.MEDIA_POSITION)){
                 mediaPosition = savedInstanceState.getLong(ConstantUtils.MEDIA_POSITION);
+                isGetPlayWhenReady = savedInstanceState.getBoolean(ConstantUtils.IS_PLAY_WHEN_READY);
             }
 
 
@@ -100,11 +110,18 @@ public class StepDetailsFragment extends Fragment {
             if (!step.getVideoURL().equals("")){
                 uri = Uri.parse(step.getVideoURL());
                 initializePlayer(uri);
-                if (mediaPosition> 0) exoPlayer.seekTo(mediaPosition);
+
             }else if (!step.getThumbnailURL().equals("")){
                 uri = Uri.parse(step.getThumbnailURL());
-                initializePlayer(uri);
-                if (mediaPosition> 0) exoPlayer.seekTo(mediaPosition);
+
+                // check if there is video in thumbnail
+                if (getMimeType(step.getThumbnailURL()).equals(ConstantUtils.MP4_MIME_TYPE)){
+                    initializePlayer(uri);
+                }
+                else{
+                    Picasso.get().load(uri).into(detailsImageView);
+                }
+
             }else{
                 playerView.setVisibility(View.GONE);
             }
@@ -148,6 +165,9 @@ public class StepDetailsFragment extends Fragment {
                 .createMediaSource(mediaUri);
         exoPlayer.prepare(videoSource);
         exoPlayer.setPlayWhenReady(true);
+
+        if (mediaPosition> 0) exoPlayer.seekTo(mediaPosition);
+        exoPlayer.setPlayWhenReady(isGetPlayWhenReady);
     }
 
     /**
@@ -167,8 +187,8 @@ public class StepDetailsFragment extends Fragment {
         super.onPause();
 
 
-        if (Util.SDK_INT <= 23) {
-            mediaPosition = exoPlayer.getContentPosition();
+        if (Util.SDK_INT <= 23 && exoPlayer != null) {
+            savePlayerState();
             releasePlayer();
         }
     }
@@ -177,8 +197,8 @@ public class StepDetailsFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        if (Util.SDK_INT > 23) {
-            mediaPosition = exoPlayer.getContentPosition();
+        if (Util.SDK_INT > 23 && exoPlayer != null) {
+            savePlayerState();
             releasePlayer();
         }
     }
@@ -199,6 +219,7 @@ public class StepDetailsFragment extends Fragment {
 
         if ((Util.SDK_INT <= 23 || exoPlayer == null)) {
             handlingTheVideo();
+            if (exoPlayer != null)
             exoPlayer.seekTo(mediaPosition);
         }
     }
@@ -213,6 +234,16 @@ public class StepDetailsFragment extends Fragment {
         this.step = step;
     }
 
+
+    private void savePlayerState() {
+        if (exoPlayer != null) {
+            isGetPlayWhenReady = exoPlayer.getPlayWhenReady();
+            mediaPosition = exoPlayer.getCurrentPosition();
+        }
+    }
+
+
+
     /**
      * Save instance of the step
      */
@@ -220,7 +251,26 @@ public class StepDetailsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        savePlayerState();
         outState.putParcelable(ConstantUtils.STEP,step);
         outState.putLong(ConstantUtils.MEDIA_POSITION, mediaPosition);
+        outState.putBoolean(ConstantUtils.IS_PLAY_WHEN_READY,isGetPlayWhenReady);
     }
+
+
+    /**
+     * method source:
+     * https://stackoverflow.com/questions/8589645/how-to-determine-mime-type-of-file-in-android?answertab=votes#tab-top
+     */
+
+
+    public static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".MainActivity">
 
 
@@ -16,14 +17,14 @@
             android:src="@drawable/header"
             android:contentDescription="Header" />
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/recipes_list_view"
             android:layout_alignParentTop="true"
             android:paddingTop="200dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>

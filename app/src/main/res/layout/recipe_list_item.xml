@@ -35,15 +35,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_margin="5dp"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/circle_image"
             android:layout_width="96dp"
             android:layout_height="96dp"
+            android:layout_margin="5dp"
             android:src="@drawable/main_icon"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#dadada"/>
+            app:civ_border_color="#dadada"
+            app:civ_border_width="2dp" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

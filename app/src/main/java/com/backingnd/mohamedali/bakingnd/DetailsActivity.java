@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.backingnd.mohamedali.bakingnd.Fragments.RecipeStepsFragment;
 import com.backingnd.mohamedali.bakingnd.Fragments.StepDetailsFragment;
@@ -26,10 +27,18 @@ public class DetailsActivity extends AppCompatActivity implements RecipeStepsFra
     boolean mTwoPane;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(null);
+
 
         Recipe recipe = getIntent().getParcelableExtra(Intent.EXTRA_COMPONENT_NAME);
 

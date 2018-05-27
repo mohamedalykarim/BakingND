@@ -22,15 +22,15 @@ public class ConstantUtils {
     public static final String UPDATE_INGREDIANTS_ACTION
             = "com.backingnd.mohamedali.bakingnd.action.update_ingrediants_widget";
 
-    public static final String SHARED_PREFERENCES_NAME
-            = "com.backingnd.mohamedali.bakingnd";
-    public static final String DESIRED_RECIPE_ID = "desired_recipe_id";
 
+    public static final String RECIPE_ID = "recipe_id";
     public static final String QUABTITY = "quantity";
     public static final String MEASURE = "measure";
     public static final String INGREDIENT = "ingredient";
 
-
-    public static final String RECIPE_ID = "recipe_id";
     public static final String MEDIA_POSITION = "media_position";
+    public static final String IS_PLAY_WHEN_READY = "is_play_when_ready";
+
+    public static final String MP4_MIME_TYPE = "video/mp4";
+    public static final String STEPS_RECYCLER_VIEW_POSITION = "step_position";
 }

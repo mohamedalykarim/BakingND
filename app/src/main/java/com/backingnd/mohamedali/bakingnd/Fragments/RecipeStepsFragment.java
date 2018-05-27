@@ -39,6 +39,10 @@ public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAd
 
     Bundle bundle;
 
+    LinearLayoutManager linearLayoutManager;
+    int currentPosition = -1;
+
+
 
     StepsRecyclerViewAdapter recyclerViewAdapter;
     RecyclerView recipeDetailsRecyclerView;
@@ -69,6 +73,10 @@ public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAd
 
         StepsExecution execution = new StepsExecution();
         execution.execute();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(ConstantUtils.STEPS_RECYCLER_VIEW_POSITION)){
+            currentPosition = savedInstanceState.getInt(ConstantUtils.STEPS_RECYCLER_VIEW_POSITION);
+        }
 
 
         return view;
@@ -142,16 +150,43 @@ public class RecipeStepsFragment extends Fragment implements StepsRecyclerViewAd
             super.onPostExecute(aVoid);
 
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager = new LinearLayoutManager(getContext());
             recipeDetailsRecyclerView.setLayoutManager(linearLayoutManager);
             recipeDetailsRecyclerView.setAdapter(recyclerViewAdapter);
             recyclerViewAdapter.notifyDataSetChanged();
+            if (currentPosition > -1){
+                linearLayoutManager.scrollToPosition(currentPosition);
+            }
         }
     }
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        currentPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        currentPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+
+    }
 
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (currentPosition < -1)
+        linearLayoutManager.scrollToPosition(currentPosition);
+    }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(ConstantUtils.STEPS_RECYCLER_VIEW_POSITION, currentPosition);
+    }
 }

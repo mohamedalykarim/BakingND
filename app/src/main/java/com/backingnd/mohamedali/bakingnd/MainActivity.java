@@ -3,9 +3,10 @@ package com.backingnd.mohamedali.bakingnd;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.backingnd.mohamedali.bakingnd.Adapter.RecipeArrayAdpater;
+import com.backingnd.mohamedali.bakingnd.Adapter.RecipeRecyclerViewAdapter;
 import com.backingnd.mohamedali.bakingnd.Models.Recipe;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeClient;
 import com.backingnd.mohamedali.bakingnd.Network.RecipeService;
@@ -22,22 +23,22 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView recipesListView;
     List<Recipe> recipes;
-    RecipeArrayAdpater recipeArrayAdpater;
+    LinearLayoutManager linearLayoutManager;
+    RecyclerView recyclerView;
+    RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recipesListView = findViewById(R.id.recipes_list_view);
-
-
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.recipes_list_view);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recipes = new ArrayList<>();
-        recipeArrayAdpater = new RecipeArrayAdpater(this,recipes);
-
-        recipesListView.setAdapter(recipeArrayAdpater);
+        recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this,recipes);
+        recyclerView.setAdapter(recipeRecyclerViewAdapter);
 
         getRecipes();
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             recipes.addAll(RecipeJSONUtils.getRecipes(s));
-            recipeArrayAdpater.notifyDataSetChanged();
+            recipeRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 
